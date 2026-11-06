@@ -1,0 +1,32 @@
+# Local secrets and account mappings
+data/.env
+data/customer_accounts.csv
+.env
+.env.*
+!.env.example
+!data/.env.example
+*.pem
+*.key
+
+# Python environments and generated files
+.venv/
+venv/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Runtime traces and generated evaluation results
+logs/
+results/
+
+# Local databases and editor/OS state
+*.sqlite
+*.sqlite3
+*.db
+.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,25 @@
+category,return_window_days,defect_window_days,refund_method,refund_processing_days,conditions
+Appliances,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Audio,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Beauty,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Cameras,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Computers & Accessories,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Fashion,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Fitness,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Footwear,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Grocery,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Home,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Kitchen,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Laptops,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Luggage,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Mobile Accessories,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Monitors,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Personal Care,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Printers,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Smart Home,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Smartphones,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Sports & Outdoors,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Tablets,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Televisions,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Toys,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included
+Wearables,7,30,Original payment method,5,Synthetic demo policy: original packaging and accessories must be included

@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in to CircuitCart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:#F2F5F4; --ink:#12202A; --muted:#546670; --line:#CBD6D8; --field:#FFFFFF;
+    --brand:#0B7A67; --brand-ink:#FFFFFF; --alert:#B3361F; --rail:#0E2A2B; --rail-ink:#D5E8E4; --trace:#3FD0B3; --signal:#F2B01E;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:#0C1517; --ink:#E6EFEE; --muted:#92A8AB; --line:#2A3C40; --field:#121E21;
+      --brand:#35C2A5; --brand-ink:#04211B; --alert:#FF8A73; --rail:#081012;
+    }
+  }
+  * { box-sizing:border-box; }
+  html,body { height:100%; }
+  body { margin:0; background:var(--paper); color:var(--ink);
+         font:16px/1.5 "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .split { min-height:100%; display:grid; grid-template-columns: minmax(0,1.05fr) minmax(0,1fr); }
+  .art { background:var(--rail); color:var(--rail-ink); padding:48px 56px; display:flex; flex-direction:column; justify-content:space-between; gap:32px; }
+  .brand { display:flex; align-items:center; gap:10px; font-weight:700; font-size:19px; color:#fff; }
+  .art h2 { font-size:clamp(28px,3.4vw,44px); line-height:1.1; letter-spacing:-.02em; margin:0 0 14px; color:#fff; max-width:15ch; font-weight:800; }
+  .art p { margin:0; max-width:40ch; color:var(--rail-ink); opacity:.85; }
+  .trace { width:100%; max-width:560px; height:auto; overflow:visible; }
+  .trace .wire { fill:none; stroke:var(--trace); stroke-width:3; stroke-linecap:round; stroke-linejoin:round;
+                 stroke-dasharray:900; stroke-dashoffset:900; animation:draw 2.2s .2s ease-out forwards; }
+  .trace .ghost { fill:none; stroke:#ffffff22; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+  .trace .pad { fill:var(--rail); stroke:var(--trace); stroke-width:3; opacity:0; animation:pop .4s ease-out forwards; }
+  .trace .pad.on { fill:var(--trace); }
+  .trace text { fill:var(--rail-ink); font-size:12.5px; font-weight:600; }
+  @keyframes draw { to { stroke-dashoffset:0; } }
+  @keyframes pop { to { opacity:1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .trace .wire { animation:none; stroke-dashoffset:0; } .trace .pad { animation:none; opacity:1; }
+  }
+  .panel { display:flex; align-items:center; padding:48px 24px; }
+  .form { width:100%; max-width:380px; margin:0 auto; }
+  h1 { font-size:30px; line-height:1.15; letter-spacing:-.02em; margin:0 0 8px; font-weight:800; }
+  .lead { margin:0 0 28px; color:var(--muted); }
+  label { display:block; font-weight:600; margin-bottom:6px; }
+  input[type=email] { width:100%; font:inherit; color:var(--ink); background:var(--field); border:1.5px solid var(--line);
+                      border-radius:10px; padding:12px 14px; }
+  input:focus-visible, button:focus-visible { outline:3px solid var(--brand); outline-offset:2px; }
+  .btn { width:100%; font:inherit; font-weight:700; color:var(--brand-ink); background:var(--brand); border:0;
+         border-radius:10px; padding:13px 16px; margin-top:16px; cursor:pointer; }
+  .btn:disabled { opacity:.55; cursor:progress; }
+  .link { background:none; border:0; padding:0; font:inherit; color:var(--brand); font-weight:600; cursor:pointer; text-decoration:underline; text-underline-offset:3px; }
+  .link:disabled { color:var(--muted); text-decoration:none; cursor:default; }
+  .codes { display:grid; grid-template-columns:repeat(6,1fr); gap:8px; margin:6px 0 0; }
+  .codes input { width:100%; text-align:center; font:700 24px/1 "Schibsted Grotesk",system-ui; padding:14px 0;
+                 background:var(--field); color:var(--ink); border:1.5px solid var(--line); border-radius:10px; font-variant-numeric:tabular-nums; }
+  .row { display:flex; justify-content:space-between; gap:12px; margin-top:18px; font-size:14.5px; flex-wrap:wrap; }
+  .error { color:var(--alert); font-weight:600; margin:14px 0 0; min-height:1.4em; }
+  .note { margin-top:16px; padding:10px 12px; border-left:4px solid var(--signal); background:color-mix(in srgb, var(--signal) 14%, transparent); font-size:14px; }
+  .hidden { display:none; }
+  .fine { margin-top:32px; color:var(--muted); font-size:13px; }
+  @media (max-width:860px) {
+    .split { grid-template-columns:1fr; }
+    .art { padding:28px 24px; } .art h2 { font-size:26px; } .trace { display:none; }
+    .panel { padding:32px 24px 48px; align-items:flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="split">
+  <aside class="art">
+    <div class="brand">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><path d="M3 22h8l4-12h6l3 12h5" fill="none" stroke="#3FD0B3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="3" cy="22" r="2.6" fill="#0E2A2B" stroke="#3FD0B3" stroke-width="2"/><circle cx="29" cy="22" r="2.6" fill="#3FD0B3"/></svg>
+      CircuitCart
+    </div>
+    <div>
+      <h2>Know where your gadgets are.</h2>
+      <p>Track orders, compare products and sort out returns. Ask the shopping assistant when you would rather just type.</p>
+    </div>
+    <svg class="trace" viewBox="0 0 560 120" role="img" aria-label="An order moving from processing to delivered">
+      <path class="ghost" d="M20 80 H150 L180 40 H300 L330 80 H420 L450 40 H540"/>
+      <path class="wire" d="M20 80 H150 L180 40 H300 L330 80 H420 L450 40 H540"/>
+      <circle class="pad on" style="animation-delay:.3s" cx="20" cy="80" r="9"/>
+      <circle class="pad on" style="animation-delay:.9s" cx="180" cy="40" r="9"/>
+      <circle class="pad on" style="animation-delay:1.5s" cx="330" cy="80" r="9"/>
+      <circle class="pad on" style="animation-delay:2.1s" cx="540" cy="40" r="9"/>
+      <text x="20" y="108" text-anchor="start">Processing</text>
+      <text x="180" y="22" text-anchor="middle">Shipped</text>
+      <text x="330" y="108" text-anchor="middle">Out for delivery</text>
+      <text x="540" y="22" text-anchor="end">Delivered</text>
+    </svg>
+  </aside>
+
+  <main class="panel">
+    <div class="form">
+      <section id="stepEmail">
+        <h1>Sign in</h1>
+        <p class="lead" id="emailLead">Enter your email to request a 6 digit sign-in code.</p>
+        <form id="emailForm" novalidate>
+          <div id="signupFields" class="hidden">
+            <label for="firstName">First name</label>
+            <input id="firstName" type="text" autocomplete="given-name" maxlength="50" placeholder="First name">
+            <label for="lastName">Last name</label>
+            <input id="lastName" type="text" autocomplete="family-name" maxlength="50" placeholder="Last name">
+          </div>
+          <label for="email">Email address</label>
+          <input id="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
+          <button class="btn" id="sendBtn" type="submit">Send sign-in code</button>
+        </form>
+        <button class="link" id="toggleSignup" type="button">New here? Create an account</button>
+      </section>
+
+      <section id="stepCode" class="hidden">
+        <h1>Check your email</h1>
+        <p class="lead" id="codeLead">If this email is linked to an account, a 6 digit code was sent. It works for 5 minutes. Check Spam or Junk if it is missing.</p>
+        <form id="codeForm" novalidate>
+          <label for="c0">Login code</label>
+          <div class="codes" id="codes">
+            <input id="c0" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Digit 1">
+            <input inputmode="numeric" maxlength="1" aria-label="Digit 2">
+            <input inputmode="numeric" maxlength="1" aria-label="Digit 3">
+            <input inputmode="numeric" maxlength="1" aria-label="Digit 4">
+            <input inputmode="numeric" maxlength="1" aria-label="Digit 5">
+            <input inputmode="numeric" maxlength="1" aria-label="Digit 6">
+          </div>
+          <button class="btn" id="verifyBtn" type="submit">Sign in</button>
+        </form>
+        <div class="row">
+          <button class="link" id="resend" type="button" disabled>Send a new code</button>
+          <button class="link" id="back" type="button">Use a different email</button>
+        </div>
+        <div class="note hidden" id="devNote">Local development code (no email is sent): <b><code id="devCode"></code></b>. The code is filled in below.</div>
+      </section>
+
+      <p class="error" id="error" role="alert"></p>
+      <p class="fine">CircuitCart is a fictional store made for a university project. All products and orders are made up.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const boxes = [...document.querySelectorAll("#codes input")];
+let email = "", timer = null;
+let signupMode = false;
+
+function setError(msg) { $("error").textContent = msg || ""; }
+async function post(url, data) {
+  const r = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+  let j = {}; try { j = await r.json(); } catch (e) {}
+  if (!r.ok) throw Object.assign(new Error(j.error || "Something went wrong. Try again."), { data: j, status: r.status });
+  return j;
+}
+function countdown(seconds) {
+  clearInterval(timer); let left = seconds; const b = $("resend"); b.disabled = true;
+  const tick = () => { if (left <= 0) { b.disabled = false; b.textContent = "Send a new code"; clearInterval(timer); }
+                       else { b.textContent = "Send a new code in " + left + "s"; left--; } };
+  tick(); timer = setInterval(tick, 1000);
+}
+function showCode(res) {
+  const emailStep = $("stepEmail"), codeStep = $("stepCode"), codeLead = $("codeLead");
+  if (!emailStep || !codeStep || !codeLead) throw new Error("The sign-in page is out of date. Refresh it and try again.");
+  emailStep.classList.add("hidden"); codeStep.classList.remove("hidden");
+  codeLead.textContent = signupMode
+    ? `If this signup request is eligible, a verification code was sent to ${email}. It works for 5 minutes. Check Spam or Junk if it is missing.`
+    : `If this email is linked to an account, a 6 digit code was sent to ${email}. It works for 5 minutes. Check Spam or Junk if it is missing.`;
+  $("devNote").classList.toggle("hidden", !res.dev_mode);
+  const devCode = res.dev_otp || "";
+  $("devCode").textContent = devCode;
+  boxes.forEach((b, i) => (b.value = devCode[i] || ""));
+  boxes[devCode ? boxes.length - 1 : 0].focus(); countdown(res.resend_in || 30);
+}
+$("toggleSignup").addEventListener("click", () => {
+  signupMode = !signupMode;
+  $("signupFields").classList.toggle("hidden", !signupMode);
+  $("firstName").required = signupMode; $("lastName").required = signupMode;
+  $("emailLead").textContent = signupMode
+    ? "Enter your name and email. We will send a code to verify the address before creating your account."
+    : "Enter your email to request a 6 digit sign-in code.";
+  $("sendBtn").textContent = signupMode ? "Create account and send code" : "Send sign-in code";
+  $("toggleSignup").textContent = signupMode ? "Already have an account? Sign in" : "New here? Create an account";
+});
+async function sendCode(isResend) {
+  setError(""); const btn = $(isResend ? "resend" : "sendBtn"); btn.disabled = true;
+  try {
+    const res = await post("/api/auth/request-otp", {
+      email,
+      intent: signupMode ? "signup" : "login",
+      first_name: signupMode ? $("firstName").value.trim() : "",
+      last_name: signupMode ? $("lastName").value.trim() : "",
+    });
+    showCode(res);
+  }
+  catch (e) {
+    setError(e.message);
+    if (e.data && e.data.resend_in) countdown(e.data.resend_in);
+    else btn.disabled = false;
+  }
+  if (!isResend) btn.disabled = false;
+}
+
+$("emailForm").addEventListener("submit", (e) => { e.preventDefault(); email = $("email").value.trim().toLowerCase(); sendCode(false); });
+$("resend").addEventListener("click", () => sendCode(true));
+$("back").addEventListener("click", () => { clearInterval(timer); setError(""); $("stepCode").classList.add("hidden"); $("stepEmail").classList.remove("hidden"); $("email").focus(); });
+
+boxes.forEach((box, i) => {
+  box.addEventListener("input", () => { box.value = box.value.replace(/\D/g, "").slice(-1); if (box.value && i < 5) boxes[i + 1].focus();
+                                         if (boxes.every((b) => b.value)) $("codeForm").requestSubmit(); });
+  box.addEventListener("keydown", (e) => { if (e.key === "Backspace" && !box.value && i > 0) boxes[i - 1].focus(); });
+  box.addEventListener("paste", (e) => {
+    const digits = (e.clipboardData.getData("text") || "").replace(/\D/g, "").slice(0, 6);
+    if (!digits) return; e.preventDefault(); digits.split("").forEach((d, k) => (boxes[k].value = d));
+    boxes[Math.min(digits.length, 5)].focus(); if (digits.length === 6) $("codeForm").requestSubmit();
+  });
+});
+
+$("codeForm").addEventListener("submit", async (e) => {
+  e.preventDefault(); const code = boxes.map((b) => b.value).join("");
+  if (code.length < 6) { setError("Enter all 6 digits."); return; }
+  setError(""); $("verifyBtn").disabled = true;
+  try { await post("/api/auth/verify-otp", { email, code }); location.href = "/"; }
+  catch (err) { setError(err.message); boxes.forEach((b) => (b.value = "")); boxes[0].focus(); }
+  $("verifyBtn").disabled = false;
+});
+$("email").focus();
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    { "name": "Web app (server.py)", "type": "debugpy", "request": "launch", "program": "${workspaceFolder}/server.py",
+      "console": "integratedTerminal", "cwd": "${workspaceFolder}" },
+    { "name": "CLI (cli.py)", "type": "debugpy", "request": "launch", "program": "${workspaceFolder}/cli.py",
+      "args": ["--customer", "C001"], "console": "integratedTerminal", "cwd": "${workspaceFolder}" },
+    { "name": "Tool unit tests", "type": "debugpy", "request": "launch", "module": "unittest",
+      "args": ["discover", "-s", "tests", "-v"], "console": "integratedTerminal", "cwd": "${workspaceFolder}" },
+    { "name": "Evaluation (oracle self-test)", "type": "debugpy", "request": "launch",
+      "module": "evaluation.run_evaluation", "args": ["--oracle"], "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}" },
+    { "name": "Evaluation (Groq model)", "type": "debugpy", "request": "launch",
+      "module": "evaluation.run_evaluation", "console": "integratedTerminal", "cwd": "${workspaceFolder}" }
+  ]
+}

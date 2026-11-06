@@ -1,0 +1,5 @@
+flask>=3.0
+langchain-core>=0.3
+langchain-groq>=0.3
+python-dotenv>=1.0
+psycopg[binary]>=3.2
